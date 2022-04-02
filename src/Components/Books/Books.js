@@ -1,30 +1,57 @@
-import React from 'react';
-import Book from '../Book/Book';
+import React, { useEffect, useState } from 'react';
 
+import Book from '../Book/Book';
+import Cart from '../Cart/Cart';
+import './Books.css'
 
 const Books = () => {
-    const books = [
-        { id: 1, name: 'Children Author', price: '$200', img: '/src/images/children-author.jpg' },
-        { id: 2, name: 'fallen Tide', price: '$150', img: '' },
-        { id: 3, name: 'Helmet', price: '$350', img: '' },
-        { id: 4, name: 'Harry Poter', price: '$250', img: '' },
-        { id: 5, name: 'Matilda Childrens', price: '$245', img: '' },
-        { id: 6, name: 'Neil Gaimen', price: '$220', img: '' },
-        { id: 7, name: 'Nelson Mendela', price: '$350', img: '' },
-        { id: 8, name: 'Owl and Moon', price: '$150', img: '' },
-        { id: 9, name: 'Romio & Joliet', price: '$270', img: '' },
-        {id:10,name:'The Book Theif',price:'$100',img:''}
-    ]
+    const [books, setBooks] = useState([]);
+    useEffect(() => {
+        fetch('data.json')
+            .then(res => res.json())
+            .then(data=>setBooks(data))
+    }, [])
+
+    // cart
+    const [cart,setCart]=useState([])
+
+    const handleAddToCart = (selectedProduct) => {
+        console.log(selectedProduct);
+        let newCart = [];
+        // array er modde cart add korar way
+        const exists = cart.find(product => product.id === selectedProduct.id)
+        if (!exists) {
+            selectedProduct.quantity = 1;
+            newCart=[...cart.selectedProduct]
+        }
+        else {
+            const rest = cart.filter(product => product.id !== selectedProduct.id);
+            exists.quantity = exists.quantity + 1;
+            newCart=[...rest,exists]
+        }
+        setCart(newCart);
+
+
+
+    }
+
+
 
 
     return (
         <div className='books-container'>
+            <div className="book-container">
             {
                 books.map(book => <Book
                     book={book}
                     key={book.id}
+                    handleAddToCart={handleAddToCart}
                 ></Book>)
             }
+            </div>
+            <div className="cart-container">
+                <Cart cart={cart}></Cart>
+            </div>
         </div>
     );
 };
