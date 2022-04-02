@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Project Name : Books World
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is [Books Wold](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
